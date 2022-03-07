@@ -1,0 +1,41 @@
+import java.util.Scanner;
+
+public class Crypto {
+	public static void main(String[] args) {
+		String key = args[0];
+		Substitution substitution;
+		if(key.equals("rot13"))
+			substitution = new Rot13(key);
+		else
+			substitution = new Substitution(key);
+		Scanner scanner = new Scanner(System.in);
+		while (true) {
+			System.out.print("(e)ncrypt, (d)ecrypt, or (q)uit? ");
+			String c = scanner.nextLine();
+			if (c.equals("e")) {
+				System.out.println("Enter text to encrypt");
+				String line = scanner.nextLine();
+				while (line.length() > 0) {
+					System.out.println(substitution.encrypt(line));
+					line = scanner.nextLine();
+				}
+			}
+			if (c.equals("d")) {
+				System.out.println("Enter text to decrypt");
+				String line = scanner.nextLine();
+				while (line.length() > 0) {
+					System.out.println(substitution.decrypt(line));
+					line = scanner.nextLine();
+				}
+			}
+			if (c.equals("q")) {
+				return;
+			}
+		}
+	}
+}
+
+public interface Cypher {
+	public String encrypt(String unencrypted);
+	public String decrypt(String encrypted);
+}
