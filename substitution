@@ -1,0 +1,64 @@
+import java.util.Iterator;
+
+public class Substitution implements Cypher {
+	protected char[] encryptKey = new char[26];
+	protected char[] decryptKey = new char[26];
+
+	public Substitution(String key) {
+		encryptKey = key.toCharArray();
+		for (int i = 0; i < 26; i++) {
+			decryptKey[i] = encryptKey[26 - i - 1];
+		}
+	}
+
+	@Override
+	public String encrypt(String unencrypted) {
+		char[] unencrypted_array = unencrypted.toCharArray();
+		char[] encrypted_array = new char[unencrypted_array.length];
+		int j = 0;
+		boolean found = false;
+		for (char c : unencrypted_array) {
+			int pos = (int)Character.toLowerCase(c)-97;
+			if(Character.toLowerCase(c) != c)
+				encrypted_array[j] = Character.toUpperCase(encryptKey[pos]);
+			else
+				encrypted_array[j] = encryptKey[pos];
+			j++;
+			found = true;
+
+			if (!found) {
+				encrypted_array[j] = c;
+				j++;
+			}
+		}
+		return new String(encrypted_array);
+	}
+
+	@Override
+	public String decrypt(String encrypted) {
+		char[] encrypted_array = encrypted.toCharArray();
+		char[] unencrypted_array = new char[encrypted_array.length];
+		int j = 0;
+		boolean found = false;
+		for (char c : encrypted_array) {
+			for (int i = 0; i < 26; i++) {
+				found = false;
+				if (encryptKey[i] == Character.toLowerCase(c)) {
+					if(Character.toLowerCase(c) != c)
+						unencrypted_array[j] = Character.toUpperCase((char)(i+97));
+					else
+						unencrypted_array[j] = (char)(i+97);
+					j++;
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				unencrypted_array[j] = c;
+				j++;
+			}
+		}
+		return new String(unencrypted_array);
+	}
+
+}
