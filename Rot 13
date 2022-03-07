@@ -1,0 +1,54 @@
+public class Rot13 extends Substitution {
+
+	String key;
+
+	public Rot13(String key) {
+		super("abcdefghijklmnopqrstuvwxyz");
+		this.key = "abcdefghijklmnopqrstuvwxyz";
+	}
+
+	public String encrypt(String unencrypted) {
+		char[] unencrypted_array = unencrypted.toCharArray();
+		char[] encrypted_array = new char[unencrypted_array.length];
+		int j = 0;
+		for (char c : unencrypted_array) {
+			if (!key.contains(c + "")) {
+				encrypted_array[j] = c;
+				j++;
+				continue;
+			}
+			int newchar = ((int) Character.toLowerCase(c)) + 13;
+			if (newchar > (int) 'z')
+				newchar -= 26;
+			if (Character.toLowerCase(c) == c)
+				encrypted_array[j] = (char) newchar;
+			else
+				encrypted_array[j] = Character.toUpperCase((char) newchar);
+			j++;
+		}
+		return new String(encrypted_array);
+	}
+
+	@Override
+	public String decrypt(String encrypted) {
+		char[] encrypted_array = encrypted.toCharArray();
+		char[] unencrypted_array = new char[encrypted_array.length];
+		int j = 0;
+		for (char c : encrypted_array) {
+			if (!key.contains(c + "")) {
+				unencrypted_array[j] = c;
+				j++;
+				continue;
+			}
+			int newchar = ((int) Character.toLowerCase(c)) - 13;
+			if (newchar < (int) 'a')
+				newchar += 26;
+			if (Character.toLowerCase(c) == c)
+				unencrypted_array[j] = (char) newchar;
+			else
+				unencrypted_array[j] = Character.toUpperCase((char) newchar);
+			j++;
+		}
+		return new String(unencrypted_array);
+	}
+}
