@@ -1,0 +1,19 @@
+#include <iostream>
+#include "color.h"
+//using namespace std;
+int main(){
+    int r,g,b;
+    Color Red(255,0,0);
+	std::cout<<Red.colorize("Red")<<std::endl;
+	Color Orange(200,200,0);
+	std::cout<<Orange.colorize("Orange")<<std::endl;
+	Color Blue(0,0,255);
+	std::cout<<Blue.colorize("Blue")<<std::endl;
+	std::cout<<"Enter red green and blue ints:";
+	std::cin>>r>>g>>b;
+	Color newCol(r,g,b);
+	std::cout<<newCol;
+	Color Black;
+	std::cout<<Black;
+	return(0);
+}
