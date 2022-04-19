@@ -1,0 +1,108 @@
+mport java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
+public class Shelter {
+    private String name;
+    private String filename;
+    private ArrayList<Animal> animals =   this.animals = new ArrayList<>();;
+
+    public Shelter(String name) {
+        this.name = name;
+    }
+
+    public Shelter(BufferedReader br) throws IOException {
+        String _breed,  _name, _gender; int _age;
+
+        try (br) {
+            String line = br.readLine();
+            name = line;
+            br.readLine();
+            line = br.readLine();
+            while (line != null) {
+                if (line.equals("dog")) {
+                    _name = br.readLine();
+                    _gender = br.readLine();
+                    _age = Integer.parseInt(br.readLine());
+                    _breed = br.readLine();
+
+                    Dog dog = new Dog(_breed, _name, _gender, _age);
+                    animals.add(dog);
+
+                } else if (line.equals("cat")) {
+                    _name = br.readLine();
+                    _gender = br.readLine();
+                    _age = Integer.parseInt(br.readLine());
+                    _breed = br.readLine();
+
+                    Cat cat = new Cat(_breed, _name, _gender, _age);
+                    animals.add(cat);
+
+                }
+                line = br.readLine();
+            }
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public ArrayList<Animal> getAnimals() {
+        return animals;
+    }
+
+    public void setAnimals(ArrayList<Animal> animals) {
+        this.animals = animals;
+    }
+
+    public void save(BufferedWriter bw) throws IOException {
+        try{
+            bw.write(name +"\n");
+            bw.write(animals.size() +"\n");
+
+            for (Animal animal : animals) {
+                bw.write(animal.family() +"\n");
+                bw.write(animal.getName() +"\n");
+                bw.write(animal.getGender() +"\n");
+                bw.write(animal.getAge() +"\n");
+                bw.write(animal.breed() +"\n");
+            }
+        }catch (IOException ex){
+            System.err.println(ex.getMessage());
+        }
+        bw.flush();
+        bw.close();
+    }
+
+    public String getFilename() {
+        return this.filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public void addAnimal(Animal animal) {
+        animals.add(animal);
+    }
+
+    @Override
+    public String toString() {
+        return "Shelter{" +
+                "name='" + name + '\'' +
+                ", filename='" + filename + '\'' +
+                ", animals=" + animals +
+                '}';
+    }
+}
